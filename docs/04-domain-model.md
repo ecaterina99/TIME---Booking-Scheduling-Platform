@@ -50,7 +50,7 @@ Represents a temporary reservation of a time slot before booking confirmation.
 
 ### Value Objects
 
-###TimeRange
+### TimeRange
 
 Represents a time interval.
 
