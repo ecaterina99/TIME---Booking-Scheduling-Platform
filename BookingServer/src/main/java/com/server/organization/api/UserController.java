@@ -1,24 +1,29 @@
 package com.server.organization.api;
 
 import com.server.organization.application.CreateUserCommand;
-import com.server.organization.application.CreateUserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.server.organization.application.UserService;
+import com.server.organization.infrastructure.UserJpaEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final CreateUserService createUserService;
+    private final UserService userService;
 
-    public UserController(CreateUserService createUserService) {
-        this.createUserService = createUserService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping
+    public List<UserDTO> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @PostMapping
     public int register(@RequestBody CreateUserCommand command) {
-        return createUserService.createUser(command);
+        return userService.createUser(command);
     }
 }

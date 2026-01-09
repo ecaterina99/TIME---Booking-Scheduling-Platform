@@ -1,3 +1,7 @@
+/**
+ * Database entity
+ */
+
 package com.server.organization.infrastructure;
 
 import com.server.organization.domain.enums.GlobalRole;

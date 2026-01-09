@@ -1,5 +1,6 @@
 package com.server.organization.domain;
-
+//the true business entity or aggregate root (we can add rules, updates)
+//does not know about db, spring & rest , only business logic
 import com.server.organization.domain.enums.GlobalRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
