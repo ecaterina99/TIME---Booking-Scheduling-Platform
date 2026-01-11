@@ -64,7 +64,6 @@ public class UserJpaEntity {
     }
     public String getFullName() {
         return fullName;
-
     }
 
     public GlobalRole getGlobalRole() {

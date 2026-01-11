@@ -1,8 +1,8 @@
 package com.server.organization.api;
 
 import com.server.organization.application.CreateUserCommand;
+import com.server.organization.application.UpdateUserCommand;
 import com.server.organization.application.UserService;
-import com.server.organization.infrastructure.UserJpaEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +33,14 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id){
+    public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void updateUser(@PathVariable int id, @RequestBody UpdateUserRequest request) {
+        userService.updateUser(
+                new UpdateUserCommand(request.email(), request.fullName(), request.globalRole(), id)
+        );
     }
 }
