@@ -5,14 +5,39 @@ import com.server.organization.domain.enums.GlobalRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.Assert;
 
-@Setter
 @Getter
-@AllArgsConstructor
 public class User {
     private int id;
-    private String email;
-    private String password;
+    private UserEmail email;
+    private UserPassword password;
     private String fullName;
     private GlobalRole globalRole;
+
+    public User(UserEmail email, UserPassword password, String fullName, GlobalRole globalRole) {
+        Assert.notNull(email, "email must not be null");
+        Assert.notNull(password, "password must not be null");
+        Assert.notNull(fullName, "Full name must not be null");
+        Assert.notNull(globalRole, "Role must not be null");
+
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.globalRole = globalRole;
+
+    }
+
+    public void changeFullName(String fullName) {
+        Assert.notNull(fullName, "Full name must not be null");
+        this.fullName = fullName;
+    }
+    public void changeEmail(UserEmail email) {
+        Assert.notNull(email, "Email must not be null");
+        this.email = email;
+    }
+    public void changeRole(GlobalRole role) {
+        Assert.notNull(role, "Role must not be null");
+        this.globalRole = role;
+    }
 }
