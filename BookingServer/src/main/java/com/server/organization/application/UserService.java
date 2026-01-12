@@ -1,9 +1,12 @@
 package com.server.organization.application;
 
 import com.server.organization.api.UserDTO;
+import com.server.organization.domain.User;
+import com.server.organization.domain.UserEmail;
+import com.server.organization.domain.UserPassword;
+import com.server.organization.domain.UserRepository;
 import com.server.organization.domain.enums.GlobalRole;
-import com.server.organization.infrastructure.UserJpaEntity;
-import com.server.organization.infrastructure.UserJpaRepository;
+import com.server.shared.infrastructure.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,80 +17,74 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private final UserJpaRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
-    public UserService(UserJpaRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder, UserMapper userMapper) {
 
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     @Transactional(readOnly = true)
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll()
                 .stream()
-                .map(user -> new UserDTO(
-                        user.getId(),
-                        user.getEmail(),
-                        user.getFullName(),
-                        user.getGlobalRole().name()
-                ))
+                .map(userMapper::toDTO)
                 .toList();
     }
 
     @Transactional(readOnly = true)
     public UserDTO getUserById(int id) {
-        UserJpaEntity user = findUserById(id);
-        return new UserDTO(
-                user.getId(),
-                user.getEmail(),
-                user.getFullName(),
-                user.getGlobalRole().name()
-        );
+        User user = findUserById(id);
+        return userMapper.toDTO(user);
     }
 
     @Transactional
     public int createUser(CreateUserCommand command) {
 
-        userRepository.findByEmail(command.email())
+        userRepository.findByEmail(new UserEmail(command.email()))
                 .ifPresent(u -> {
                     throw new IllegalArgumentException("User with this email already exists");
                 });
-        UserJpaEntity entity = new UserJpaEntity(
-                command.email(),
-                passwordEncoder.encode(command.password()),
+        User user = new User(
+                0,
+                new UserEmail(command.email()),
+                new UserPassword(passwordEncoder.encode(command.password())),
                 command.fullName(),
                 GlobalRole.USER
         );
-        return userRepository.save(entity).getId();
+
+        return userRepository.save(user).getId();
     }
 
     @Transactional
     public void deleteUser(int id) {
-        UserJpaEntity user = findUserById(id);
-        userRepository.deleteById(user.getId());
+        User user = findUserById(id);
+        userRepository.delete(user);
     }
 
     @Transactional
     public void updateUser(UpdateUserCommand command) {
 
-        UserJpaEntity user = findUserById(command.id());
+        User user = findUserById(command.id());
 
         if (command.fullName() != null) {
-            user.setFullName(command.fullName());
+            user.changeFullName(command.fullName());
         }
-        if (command.email() != null) {
-            user.setEmail(command.email());
+        if (command.email() != null && !command.email().isBlank()) {
+            user.changeEmail(new UserEmail(command.email()));
         }
         if (command.globalRole() != null) {
-            user.setGlobalRole(command.globalRole());
+            user.changeRole(command.globalRole());
         }
         userRepository.save(user);
     }
 
-    private UserJpaEntity findUserById(int id) {
+    private User findUserById(int id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "User with id: " + id + " is not found"

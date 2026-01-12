@@ -5,4 +5,5 @@ public record UserDTO(
         String email,
         String fullName,
         String globalRole
-) {}
+) {
+}

@@ -1,11 +1,10 @@
-/**
- * Database entity
- */
-
 package com.server.organization.infrastructure;
 
 import com.server.organization.domain.enums.GlobalRole;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,13 +18,18 @@ public class UserJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Email(message = "Invalid email format")
+    @NotEmpty(message = "This field can't be empty")
     private String email;
+    @Size(min = 6, max = 64, message = "Password must be between 6 and 64 characters")
+    @Column(name = "password", nullable = false)
     private String password;
-
+    @NotEmpty(message = "This field can't be empty")
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "global_role", nullable = false, columnDefinition = "DEFAULT 'USER'")
     private GlobalRole globalRole;
 
     public UserJpaEntity() {
@@ -37,37 +41,4 @@ public class UserJpaEntity {
         this.fullName = fullName;
         this.globalRole = globalRole;
     }
-
-    public void  setId(int id) {
-        this.id = id;
-    }
-    public void  setEmail(String email) {
-        this.email = email;
-    }
-    public void  setPassword(String password) {
-        this.password = password;
-    }
-    public void  setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-    public void  setGlobalRole(GlobalRole globalRole) {
-        this.globalRole = globalRole;
-    }
-    public int getId() {
-        return id;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public String getFullName() {
-        return fullName;
-    }
-
-    public GlobalRole getGlobalRole() {
-        return globalRole;
-    }
-
 }
