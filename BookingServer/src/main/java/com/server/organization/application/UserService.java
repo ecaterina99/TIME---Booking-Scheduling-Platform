@@ -1,10 +1,7 @@
 package com.server.organization.application;
 
 import com.server.organization.api.UserDTO;
-import com.server.organization.domain.User;
-import com.server.organization.domain.UserEmail;
-import com.server.organization.domain.UserPassword;
-import com.server.organization.domain.UserRepository;
+import com.server.organization.domain.*;
 import com.server.organization.domain.enums.GlobalRole;
 import com.server.shared.infrastructure.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -47,9 +44,7 @@ public class UserService {
     public int createUser(CreateUserCommand command) {
 
         userRepository.findByEmail(new UserEmail(command.email()))
-                .ifPresent(u -> {
-                    throw new IllegalArgumentException("User with this email already exists");
-                });
+                .ifPresent(u -> { throw new UserAlreadyExistsException(new UserEmail(command.email())); });
         User user = new User(
                 0,
                 new UserEmail(command.email()),
