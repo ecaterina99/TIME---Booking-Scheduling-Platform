@@ -4,7 +4,7 @@ import com.server.organization.api.UserDTO;
 import com.server.organization.domain.users.User;
 import com.server.organization.domain.users.UserEmail;
 import com.server.organization.domain.users.UserPassword;
-import com.server.organization.infrastructure.UserJpaEntity;
+import com.server.organization.infrastructure.users.UserJpaEntity;
 import org.springframework.stereotype.Component;
 
 @Component

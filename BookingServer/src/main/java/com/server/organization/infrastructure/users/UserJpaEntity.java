@@ -1,4 +1,4 @@
-package com.server.organization.infrastructure;
+package com.server.organization.infrastructure.users;
 
 import com.server.organization.domain.enums.GlobalRole;
 import jakarta.persistence.*;
