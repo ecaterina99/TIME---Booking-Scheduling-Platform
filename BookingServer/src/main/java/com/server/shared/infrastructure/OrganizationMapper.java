@@ -1,5 +1,6 @@
 package com.server.shared.infrastructure;
 
+import com.server.organization.api.OrganizationDTO;
 import com.server.organization.domain.organizations.Organization;
 import com.server.organization.domain.organizations.OrganizationAddress;
 import com.server.organization.domain.organizations.OrganizationEmail;
@@ -30,6 +31,17 @@ public class OrganizationMapper {
                 entity.getCity(),
                 new OrganizationEmail(entity.getEmail()),
                 new OrganizationPhone(entity.getPhone())
+        );
+    }
+
+    public OrganizationDTO toDTO(Organization organization) {
+        return new OrganizationDTO(
+                organization.getId(),
+                organization.getName(),
+                organization.getCity(),
+                organization.getAddress().value(),
+                organization.getPhone().value(),
+                organization.getEmail().value()
         );
     }
 }
