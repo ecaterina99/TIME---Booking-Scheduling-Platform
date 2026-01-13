@@ -12,7 +12,7 @@ Domain-Driven Design (DDD)
 
 Spring Data JPA (Hibernate)
 
-PostgreSQL
+MySQL
 
 Spring Security
 
