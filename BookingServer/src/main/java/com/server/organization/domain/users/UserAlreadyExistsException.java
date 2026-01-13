@@ -1,4 +1,4 @@
-package com.server.organization.domain;
+package com.server.organization.domain.users;
 
 public class UserAlreadyExistsException extends RuntimeException {
     public UserAlreadyExistsException(UserEmail email) {

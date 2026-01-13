@@ -1,4 +1,4 @@
-package com.server.organization.domain;
+package com.server.organization.domain.users;
 
 import java.util.List;
 import java.util.Optional;

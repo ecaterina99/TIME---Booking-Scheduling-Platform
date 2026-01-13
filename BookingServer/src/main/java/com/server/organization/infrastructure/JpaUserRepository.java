@@ -1,8 +1,8 @@
 package com.server.organization.infrastructure;
 
-import com.server.organization.domain.User;
-import com.server.organization.domain.UserEmail;
-import com.server.organization.domain.UserRepository;
+import com.server.organization.domain.users.User;
+import com.server.organization.domain.users.UserEmail;
+import com.server.organization.domain.users.UserRepository;
 import com.server.shared.infrastructure.UserMapper;
 import org.springframework.stereotype.Repository;
 

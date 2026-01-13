@@ -1,9 +1,9 @@
 package com.server.shared.infrastructure;
 
 import com.server.organization.api.UserDTO;
-import com.server.organization.domain.User;
-import com.server.organization.domain.UserEmail;
-import com.server.organization.domain.UserPassword;
+import com.server.organization.domain.users.User;
+import com.server.organization.domain.users.UserEmail;
+import com.server.organization.domain.users.UserPassword;
 import com.server.organization.infrastructure.UserJpaEntity;
 import org.springframework.stereotype.Component;
 

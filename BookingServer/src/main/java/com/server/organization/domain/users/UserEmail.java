@@ -1,4 +1,4 @@
-package com.server.organization.domain;
+package com.server.organization.domain.users;
 
 public record UserEmail(String value) {
     public UserEmail {

@@ -27,7 +27,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     @Operation(summary = "Retrieve all users")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved all users",
             content = @Content(mediaType = "application/json",

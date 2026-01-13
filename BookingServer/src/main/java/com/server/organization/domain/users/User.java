@@ -1,4 +1,4 @@
-package com.server.organization.domain;
+package com.server.organization.domain.users;
 //the true business entity or aggregate root (we can add rules, updates)
 //does not know about db, spring & rest , only business logic
 
