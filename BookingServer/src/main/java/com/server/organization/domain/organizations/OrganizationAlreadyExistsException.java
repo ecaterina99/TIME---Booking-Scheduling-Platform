@@ -1,6 +1,4 @@
-package com.server.organization.infrastructure.organizations;
-
-import com.server.organization.domain.organizations.OrganizationEmail;
+package com.server.organization.domain.organizations;
 
 public class OrganizationAlreadyExistsException extends RuntimeException {
     public OrganizationAlreadyExistsException(OrganizationEmail email) {

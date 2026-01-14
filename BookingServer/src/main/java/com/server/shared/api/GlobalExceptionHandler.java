@@ -1,6 +1,6 @@
 package com.server.shared.api;
 import com.server.organization.domain.users.UserAlreadyExistsException;
-import com.server.organization.infrastructure.organizations.OrganizationAlreadyExistsException;
+import com.server.organization.domain.organizations.OrganizationAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

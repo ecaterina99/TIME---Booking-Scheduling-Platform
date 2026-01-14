@@ -3,10 +3,7 @@ package com.server.organization.infrastructure.organizations;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -38,7 +35,8 @@ public class OrganizationJpaEntity {
     private LocalDateTime createdAt = LocalDateTime.now();
 
 
-    public OrganizationJpaEntity() {}
+    public OrganizationJpaEntity() {
+    }
 
     public OrganizationJpaEntity(String name, String email, String city, String address, String phone) {
         this.name = name;

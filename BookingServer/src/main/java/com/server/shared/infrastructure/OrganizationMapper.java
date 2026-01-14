@@ -19,7 +19,7 @@ public class OrganizationMapper {
                 organization.getAddress().value(),
                 organization.getPhone().value()
 
-                );
+        );
         entity.setId(organization.getId());
         return entity;
     }

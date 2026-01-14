@@ -40,4 +40,15 @@ public class Organization {
         Assert.notNull(phone, "Phone must not be null");
         this.phone = phone;
     }
+
+    public void changeCity(String city) {
+        Assert.notNull(city, "City must not be null");
+        this.city = city;
+    }
+
+    public void changeEmail(OrganizationEmail email) {
+        Assert.notNull(email, "Email must not be null");
+        this.email = email;
+    }
+
 }

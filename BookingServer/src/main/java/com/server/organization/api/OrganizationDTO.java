@@ -7,4 +7,5 @@ public record OrganizationDTO(
         String address,
         String phone,
         String email
-        ) {}
+) {
+}

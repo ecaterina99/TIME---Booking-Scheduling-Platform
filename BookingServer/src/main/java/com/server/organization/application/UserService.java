@@ -44,7 +44,9 @@ public class UserService {
     public int createUser(CreateUserCommand command) {
 
         userRepository.findByEmail(new UserEmail(command.email()))
-                .ifPresent(u -> { throw new UserAlreadyExistsException(new UserEmail(command.email())); });
+                .ifPresent(u -> {
+                    throw new UserAlreadyExistsException(new UserEmail(command.email()));
+                });
         User user = new User(
                 0,
                 new UserEmail(command.email()),

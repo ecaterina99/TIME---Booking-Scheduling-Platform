@@ -2,34 +2,25 @@ package com.server.organization.application;
 
 import com.server.organization.api.OrganizationDTO;
 import com.server.organization.domain.organizations.*;
-import com.server.organization.domain.users.User;
-import com.server.organization.domain.users.UserAlreadyExistsException;
-import com.server.organization.domain.users.UserEmail;
-import com.server.organization.infrastructure.organizations.OrganizationAlreadyExistsException;
+import com.server.organization.domain.organizations.OrganizationAlreadyExistsException;
 import com.server.shared.infrastructure.OrganizationMapper;
-import com.server.shared.infrastructure.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
-    private final PasswordEncoder passwordEncoder;
     private final OrganizationMapper organizationMapper;
 
 
-    public OrganizationService(OrganizationRepository organizationRepository, PasswordEncoder passwordEncoder, OrganizationMapper organizationMapper) {
+    public OrganizationService(OrganizationRepository organizationRepository, OrganizationMapper organizationMapper) {
         this.organizationRepository = organizationRepository;
-        this.passwordEncoder = passwordEncoder;
         this.organizationMapper = organizationMapper;
     }
-
 
     @Transactional(readOnly = true)
     public List<OrganizationDTO> getAllOrganizations() {
@@ -41,6 +32,35 @@ public class OrganizationService {
     public OrganizationDTO getOrganizationById(int id) {
         Organization organization = findOrganizationById(id);
         return organizationMapper.toDTO(organization);
+    }
+
+    @Transactional
+    public void updateOrganization(UpdateOrganizationCommand command) {
+        Organization organization = findOrganizationById(command.id());
+
+        if (command.name() != null) {
+            organization.changeName(command.name());
+        }
+        if (command.email() != null && !command.email().isBlank()) {
+            organization.changeEmail(new OrganizationEmail(command.email()));
+        }
+        if (command.address() != null && !command.address().isBlank()) {
+            organization.changeAddress(new OrganizationAddress(command.address()));
+        }
+        if (command.city() != null) {
+            organization.changeCity(command.city());
+        }
+        if (command.phone() != null && !command.phone().isBlank()) {
+            organization.changePhone(new OrganizationPhone(command.phone()));
+        }
+        organizationRepository.save(organization);
+    }
+
+
+    @Transactional
+    public void deleteOrganizationById(int id) {
+        Organization organization = findOrganizationById(id);
+        organizationRepository.delete(organization);
     }
 
 
@@ -60,7 +80,6 @@ public class OrganizationService {
                 new OrganizationPhone(createOrganizationCommand.phone())
         );
         return organizationRepository.save(organization).getId();
-
     }
 
 

@@ -1,7 +1,9 @@
 package com.server.organization.application;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record CreateUserCommand(
-        String email,
-        String password,
-        String fullName
+        @NotBlank String email,
+        @NotBlank String password,
+        @NotBlank String fullName
 ) {}

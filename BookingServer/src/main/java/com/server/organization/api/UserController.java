@@ -41,9 +41,9 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "User found",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = UserDTO.class)))
-    public UserDTO getUserById (
-    @Parameter(description = "ID of astronaut to retrieve", example = "1")
-    @PathVariable int id) {
+    public UserDTO getUserById(
+            @Parameter(description = "ID of user to retrieve", example = "1")
+            @PathVariable int id) {
         return userService.getUserById(id);
     }
 
