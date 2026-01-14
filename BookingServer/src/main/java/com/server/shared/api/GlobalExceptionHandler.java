@@ -1,5 +1,6 @@
 package com.server.shared.api;
 import com.server.organization.domain.users.UserAlreadyExistsException;
+import com.server.organization.infrastructure.organizations.OrganizationAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,5 +49,11 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError handleUserAlreadyExists(UserAlreadyExistsException e) {
         return ApiError.of(HttpStatus.CONFLICT, "USER_ALREADY_EXISTS", e.getMessage());
+    }
+
+    @ExceptionHandler(OrganizationAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiError handleOrganizationAlreadyExists(OrganizationAlreadyExistsException e) {
+        return ApiError.of(HttpStatus.CONFLICT, "ORGANIZATION_ALREADY_EXISTS", e.getMessage());
     }
 }

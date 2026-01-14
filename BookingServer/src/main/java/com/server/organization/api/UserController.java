@@ -49,7 +49,7 @@ public class UserController {
 
     @PostMapping
     @Operation(summary = "Register a new user")
-    @ApiResponse(responseCode = "201", description = "User created registered",
+    @ApiResponse(responseCode = "201", description = "User registered successfully",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = UserDTO.class)))
     public int register(@Valid @RequestBody CreateUserCommand command) {

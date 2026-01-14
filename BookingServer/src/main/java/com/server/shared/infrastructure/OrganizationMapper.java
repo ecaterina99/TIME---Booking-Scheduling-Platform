@@ -14,11 +14,12 @@ public class OrganizationMapper {
     public OrganizationJpaEntity toEntity(Organization organization) {
         OrganizationJpaEntity entity = new OrganizationJpaEntity(
                 organization.getName(),
+                organization.getEmail().value(),
                 organization.getCity(),
                 organization.getAddress().value(),
-                organization.getPhone().value(),
-                organization.getEmail().value()
-        );
+                organization.getPhone().value()
+
+                );
         entity.setId(organization.getId());
         return entity;
     }
