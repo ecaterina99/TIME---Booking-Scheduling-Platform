@@ -22,4 +22,7 @@ public class OrganizationMember {
         this.role = newRole;
     }
 
+    public OrganizationMember(int organizationId, int userId, Role role) {
+        this(0, organizationId, userId, role);
+    }
 }
