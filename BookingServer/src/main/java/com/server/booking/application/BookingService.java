@@ -4,6 +4,9 @@ import com.server.booking.domain.Booking;
 import com.server.booking.domain.BookingRepository;
 import com.server.booking.domain.TimeSlot;
 import com.server.organization.domain.organizations.Organization;
+import com.server.organization.domain.organizations.OrganizationRepository;
+import com.server.organization.domain.users.UserRepository;
+import com.server.services.domain.ServiceRepository;
 import com.server.shared.infrastructure.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,10 +20,14 @@ import java.util.stream.Collectors;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
+    private final UserRepository userRepository;
+    private final ServiceRepository serviceRepository;
     private final UserMapper userMapper;
 
-    public BookingService(BookingRepository bookingRepository, UserMapper userMapper) {
+    public BookingService(BookingRepository bookingRepository, UserRepository userRepository, ServiceRepository serviceRepository, UserMapper userMapper) {
         this.bookingRepository = bookingRepository;
+        this.userRepository = userRepository;
+        this.serviceRepository = serviceRepository;
         this.userMapper = userMapper;
     }
 
@@ -31,6 +38,18 @@ public class BookingService {
     }
 
     @Transactional(readOnly = true)
+    public List<BookingDTO> getBookingsBySpecialistId(int id) {
+        List<Booking> bookings = bookingRepository.getBookingsBySpecialistId(id);
+        return bookings.stream().map(userMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<BookingDTO> getBookingsByClientId(int id) {
+        List<Booking> bookings = bookingRepository.getBookingsByClientId(id);
+        return bookings.stream().map(userMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public List<BookingDTO> getAllBookings() {
         List<Booking> bookings = bookingRepository.getAllBookings();
         return bookings.stream().map(userMapper::toDTO).collect(Collectors.toList());
@@ -38,6 +57,11 @@ public class BookingService {
 
     @Transactional
     public int createBooking(CreateBookingCommand command) {
+
+        userRepository.findById(command.clientId()).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        userRepository.findById(command.specialistId()).orElseThrow(() -> new EntityNotFoundException("Specialist not found"));
+        serviceRepository.findById(command.serviceId()).orElseThrow(() -> new EntityNotFoundException("Service not found"));
+
         Booking booking = new Booking(
                 0,
                 command.clientId(),

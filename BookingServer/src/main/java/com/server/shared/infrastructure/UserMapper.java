@@ -156,7 +156,7 @@ public class UserMapper {
         );
     }
 
-    public BookingJpaEntity toEntity (Booking booking) {
+    public BookingJpaEntity toEntity(Booking booking) {
 
         BookingJpaEntity b = new BookingJpaEntity(
                 booking.getClientId(),
@@ -171,7 +171,7 @@ public class UserMapper {
         return b;
     }
 
-    public Booking toDomain (BookingJpaEntity entity){
+    public Booking toDomain(BookingJpaEntity entity) {
         return new Booking(
                 entity.getId(),
                 entity.getClientId(),
@@ -195,5 +195,4 @@ public class UserMapper {
                 booking.getCreatedAt()
         );
     }
-
 }

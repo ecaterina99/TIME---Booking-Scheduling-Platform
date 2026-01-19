@@ -11,5 +11,4 @@ public interface JpaBookingRepository extends JpaRepository<BookingJpaEntity, In
     List<BookingJpaEntity> getBookingsByClientId(int clientId);
 
     List<BookingJpaEntity> getBookingsBySpecialistId(int specialistId);
-
 }

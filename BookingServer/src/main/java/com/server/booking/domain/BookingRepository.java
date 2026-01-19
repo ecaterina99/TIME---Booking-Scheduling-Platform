@@ -10,14 +10,13 @@ public interface BookingRepository {
 
     Optional<Booking> findById(int id);
 
-    public List<Booking> getAllBookings();
+    List<Booking> getAllBookings();
 
-    public List<Booking> getBookingsBySpecialistId(int specialistId);
+    List<Booking> getBookingsBySpecialistId(int specialistId);
 
-    public List<Booking> getBookingsByClientId(int clientId);
+    List<Booking> getBookingsByClientId(int clientId);
 
-    public Booking add(Booking booking);
+    Booking add(Booking booking);
 
-    public void delete(int bookingId);
-
+    void delete(int bookingId);
 }

@@ -16,11 +16,11 @@ public class BookingJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column( name = "client_id")
+    @Column(nullable = false, name = "client_id")
     private int clientId;
-    @Column(name = "service_id")
+    @Column(nullable = false, name = "service_id")
     private int serviceId;
-    @Column( name = "specialist_id")
+    @Column(nullable = false, name = "specialist_id")
     private int specialistId;
     @Column(nullable = false, name = "start_time")
     private LocalDateTime startTime;
