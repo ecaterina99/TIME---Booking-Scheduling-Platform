@@ -71,6 +71,7 @@ public class OrganizationService {
                 ifPresent(o -> {
                     throw new OrganizationAlreadyExistsException(new OrganizationEmail(createOrganizationCommand.email()));
                 });
+
         Organization organization = new Organization(
                 0,
                 createOrganizationCommand.name(),

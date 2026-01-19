@@ -1,5 +1,6 @@
 package com.server.shared.infrastructure;
 
+import com.server.booking.application.BookingDTO;
 import com.server.booking.domain.Booking;
 import com.server.booking.domain.TimeSlot;
 import com.server.booking.infrastructure.BookingJpaEntity;
@@ -179,6 +180,19 @@ public class UserMapper {
                 new TimeSlot(entity.getStartTime(), entity.getEndTime()),
                 entity.getStatus(),
                 entity.getCreatedAt()
+        );
+    }
+
+    public BookingDTO toDTO(Booking booking) {
+        return new BookingDTO(
+                booking.getId(),
+                booking.getClientId(),
+                booking.getSpecialistId(),
+                booking.getServiceId(),
+                booking.getTimeSlot().start(),
+                booking.getTimeSlot().end(),
+                booking.getStatus(),
+                booking.getCreatedAt()
         );
     }
 
