@@ -2,17 +2,16 @@ package com.server.schedule.domain;
 
 import lombok.Getter;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 @Getter
 public class WorkingDay {
 
-    private final DayOfWeek dayOfWeek;
+    private final java.time.DayOfWeek dayOfWeek;
     private final LocalTime start;
     private final LocalTime end;
 
-    public WorkingDay(DayOfWeek dayOfWeek, LocalTime start, LocalTime end) {
+    public WorkingDay(java.time.DayOfWeek dayOfWeek, LocalTime start, LocalTime end) {
         if (end.isBefore(start)) {
             throw new IllegalArgumentException("End time must be after start time");
         }
@@ -21,7 +20,7 @@ public class WorkingDay {
         this.end = end;
     }
 
-    public boolean allows(TimeSlot slot) {
+    public boolean allows(WorkingHours slot) {
         if (!slot.getStart().getDayOfWeek().equals(dayOfWeek)) {
             return false;
         }

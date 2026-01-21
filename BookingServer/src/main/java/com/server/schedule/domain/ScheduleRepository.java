@@ -9,7 +9,5 @@ public interface ScheduleRepository {
 
     Optional<Schedule> findBySpecialistId(int specialistId);
 
-    Schedule save(Schedule schedule);
-
-    void deleteBySpecialistId(int specialistId);
+    void save(Schedule schedule);
 }

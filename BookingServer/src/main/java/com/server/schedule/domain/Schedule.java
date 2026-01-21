@@ -17,7 +17,7 @@ public class Schedule {
         this.workingDays = List.copyOf(workingDays);
     }
 
-    public boolean isAvailable(TimeSlot slot) {
+    public boolean isAvailable(WorkingHours slot) {
         return workingDays.stream().anyMatch(day -> day.allows(slot));
     }
 }
