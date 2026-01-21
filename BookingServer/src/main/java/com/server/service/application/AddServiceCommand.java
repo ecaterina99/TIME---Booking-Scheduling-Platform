@@ -1,4 +1,4 @@
-package com.server.services.application;
+package com.server.service.application;
 
 public record AddServiceCommand(
         String name,
@@ -7,5 +7,4 @@ public record AddServiceCommand(
         int durationMinutes,
         int price
 ) {
-
 }

@@ -1,4 +1,4 @@
-package com.server.services.domain;
+package com.server.service.domain;
 
 import java.util.List;
 import java.util.Optional;

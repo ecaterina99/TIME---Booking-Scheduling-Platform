@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestController
@@ -72,7 +73,7 @@ public class BookingController {
         return bookingService.createBooking(command);
     }
 
-
+/*
     @PatchMapping("/{id}/confirm")
     @Operation(summary = "Confirm a booking")
     @ApiResponse(responseCode = "201", description = "Booking confirmed successfully",
@@ -84,7 +85,7 @@ public class BookingController {
 
     // Client
     @PatchMapping("/{id}/cancel/client")
-    public void cancelBookingByClient(@PathVariable int id) {
+    public void cancelBookingByClient(@PathVariable int id) throws AccessDeniedException {
         bookingService.cancelBookingByClient(id, currentUserId());
     }
 
@@ -97,6 +98,8 @@ public class BookingController {
     private int currentUserId() {
         return SecurityUtils.currentUserId();
     }
+
+ */
 
 }
 

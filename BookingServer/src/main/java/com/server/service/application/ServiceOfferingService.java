@@ -1,10 +1,10 @@
-package com.server.services.application;
+package com.server.service.application;
 
-import com.server.services.api.ServiceDTO;
-import com.server.services.domain.ServiceDuration;
-import com.server.services.domain.ServiceName;
-import com.server.services.domain.ServicePrice;
-import com.server.services.domain.ServiceRepository;
+import com.server.service.api.ServiceDTO;
+import com.server.service.domain.ServiceDuration;
+import com.server.service.domain.ServiceName;
+import com.server.service.domain.ServicePrice;
+import com.server.service.domain.ServiceRepository;
 import com.server.shared.infrastructure.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,19 +27,19 @@ public class ServiceOfferingService {
 
     @Transactional(readOnly = true)
     public ServiceDTO getServiceById(int id) {
-        com.server.services.domain.Service service = findServiceById(id);
+        com.server.service.domain.Service service = findServiceById(id);
         return userMapper.toDTO(service);
     }
 
     @Transactional(readOnly = true)
     public List<ServiceDTO> getAllServices() {
-        List<com.server.services.domain.Service> services = serviceRepository.findAll();
+        List<com.server.service.domain.Service> services = serviceRepository.findAll();
         return services.stream().map(userMapper::toDTO).collect(Collectors.toList());
     }
 
     @Transactional
     public int addService(AddServiceCommand command) {
-        com.server.services.domain.Service service = new com.server.services.domain.Service(
+        com.server.service.domain.Service service = new com.server.service.domain.Service(
                 0,
                 new ServiceName(command.name()),
                 command.organizationId(),
@@ -52,7 +52,7 @@ public class ServiceOfferingService {
 
 
     public void updateService(UpdateServiceCommand command) {
-        com.server.services.domain.Service service = findServiceById(command.id());
+        com.server.service.domain.Service service = findServiceById(command.id());
 
         if (command.name() != null) {
             service.changeName(new ServiceName(command.name()));
@@ -74,11 +74,11 @@ public class ServiceOfferingService {
 
     @Transactional
     public void deleteServiceById(int id) {
-        com.server.services.domain.Service service = findServiceById(id);
+        com.server.service.domain.Service service = findServiceById(id);
         serviceRepository.delete(service);
     }
 
-    private com.server.services.domain.Service findServiceById(int id) {
+    private com.server.service.domain.Service findServiceById(int id) {
         return serviceRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Service with id: " + id + " is not found"

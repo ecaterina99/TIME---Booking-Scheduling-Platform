@@ -18,6 +18,8 @@ import com.server.organization.domain.users.UserPassword;
 import com.server.organization.infrastructure.organizationMembers.OrganizationMembersEntity;
 import com.server.organization.infrastructure.organizations.OrganizationJpaEntity;
 import com.server.organization.infrastructure.users.UserJpaEntity;
+import com.server.schedule.application.ScheduleDTO;
+import com.server.schedule.application.WorkingDayDTO;
 import com.server.schedule.domain.Schedule;
 import com.server.schedule.domain.WorkingDay;
 import com.server.schedule.infrastructure.ScheduleJpaEntity;
@@ -196,12 +198,10 @@ public class UserMapper {
                 booking.getServiceId(),
                 booking.getTimeSlot().start(),
                 booking.getTimeSlot().end(),
-                booking.getStatus().name(),
-                booking.getCreatedAt()
-        );
+                booking.getStatus().name());
     }
 
-    public Schedule toDomain (List<ScheduleJpaEntity> entities){
+    public Schedule toScheduleDomain (List<ScheduleJpaEntity> entities){
         if (entities.isEmpty()) {
             throw new IllegalArgumentException("Schedule rows cannot be empty");
         }
@@ -216,11 +216,22 @@ public class UserMapper {
                 .toList();
 
         return new Schedule(
-                0,
                 specialistId,
                 workingDays
         );
     }
+
+    public ScheduleDTO scheduleToDTO(Schedule schedule) {
+        return new ScheduleDTO(
+                schedule.getSpecialistId(),
+                schedule.getWorkingDays().stream().map(day->new WorkingDayDTO(
+                        day.getDayOfWeek(),
+                        day.getStart(),
+                        day.getEnd()
+                )).toList()
+        );
+    }
+
     public List<ScheduleJpaEntity> toScheduleEntities(Schedule schedule) {
 
         return schedule.getWorkingDays().stream()
@@ -235,5 +246,7 @@ public class UserMapper {
                 })
                 .toList();
     }
+
+
 
 }

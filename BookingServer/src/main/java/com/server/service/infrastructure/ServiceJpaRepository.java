@@ -1,4 +1,4 @@
-package com.server.services.infrastructure;
+package com.server.service.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

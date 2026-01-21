@@ -1,4 +1,4 @@
-package com.server.services.domain;
+package com.server.service.domain;
 
 public record ServiceDuration(int minutes) {
 

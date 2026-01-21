@@ -1,4 +1,4 @@
-package com.server.services.infrastructure;
+package com.server.service.infrastructure;
 
 import jakarta.persistence.*;
 import lombok.Getter;

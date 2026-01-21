@@ -1,7 +1,7 @@
-package com.server.services.infrastructure;
+package com.server.service.infrastructure;
 
-import com.server.services.domain.Service;
-import com.server.services.domain.ServiceRepository;
+import com.server.service.domain.Service;
+import com.server.service.domain.ServiceRepository;
 import com.server.shared.infrastructure.UserMapper;
 import org.springframework.stereotype.Repository;
 

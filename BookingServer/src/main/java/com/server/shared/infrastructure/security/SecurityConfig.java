@@ -1,4 +1,4 @@
-package com.server.shared.infrastructure;
+package com.server.shared.infrastructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.server.services.api;
+package com.server.service.api;
 
 public record ServiceDTO(
         int id,

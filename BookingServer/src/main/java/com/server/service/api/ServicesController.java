@@ -1,8 +1,8 @@
-package com.server.services.api;
+package com.server.service.api;
 
-import com.server.services.application.AddServiceCommand;
-import com.server.services.application.ServiceOfferingService;
-import com.server.services.application.UpdateServiceCommand;
+import com.server.service.application.AddServiceCommand;
+import com.server.service.application.ServiceOfferingService;
+import com.server.service.application.UpdateServiceCommand;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

@@ -1,4 +1,4 @@
-package com.server.services.domain;
+package com.server.service.domain;
 
 import lombok.Getter;
 import org.springframework.util.Assert;

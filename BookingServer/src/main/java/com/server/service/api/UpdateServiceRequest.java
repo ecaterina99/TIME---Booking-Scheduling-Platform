@@ -1,7 +1,6 @@
-package com.server.services.application;
+package com.server.service.api;
 
-public record UpdateServiceCommand(
-        int id,
+public record UpdateServiceRequest(
         String name,
         Integer organizationId,
         String description,

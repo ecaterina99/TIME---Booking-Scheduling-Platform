@@ -2,12 +2,12 @@ package com.server.booking.application;
 
 import com.server.booking.domain.Booking;
 import com.server.booking.domain.BookingRepository;
-import com.server.booking.domain.BookingStatus;
 import com.server.booking.domain.TimeSlot;
-import com.server.organization.domain.organizations.Organization;
-import com.server.organization.domain.organizations.OrganizationRepository;
 import com.server.organization.domain.users.UserRepository;
-import com.server.services.domain.ServiceRepository;
+import com.server.schedule.domain.Schedule;
+import com.server.schedule.domain.ScheduleRepository;
+import com.server.schedule.domain.WorkingHours;
+import com.server.service.domain.ServiceRepository;
 import com.server.shared.infrastructure.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,12 +25,14 @@ public class BookingService {
     private final UserRepository userRepository;
     private final ServiceRepository serviceRepository;
     private final UserMapper userMapper;
+    private final ScheduleRepository scheduleRepository;
 
-    public BookingService(BookingRepository bookingRepository, UserRepository userRepository, ServiceRepository serviceRepository, UserMapper userMapper) {
+    public BookingService(BookingRepository bookingRepository, UserRepository userRepository, ServiceRepository serviceRepository, UserMapper userMapper, ScheduleRepository scheduleRepository) {
         this.bookingRepository = bookingRepository;
         this.userRepository = userRepository;
         this.serviceRepository = serviceRepository;
         this.userMapper = userMapper;
+        this.scheduleRepository = scheduleRepository;
     }
 
     @Transactional(readOnly = true)
@@ -61,9 +62,25 @@ public class BookingService {
     @Transactional
     public int createBooking(CreateBookingCommand command) {
 
-        userRepository.findById(command.clientId()).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        userRepository.findById(command.clientId()).orElseThrow(() -> new EntityNotFoundException("Client not found"));
         userRepository.findById(command.specialistId()).orElseThrow(() -> new EntityNotFoundException("Specialist not found"));
         serviceRepository.findById(command.serviceId()).orElseThrow(() -> new EntityNotFoundException("Service not found"));
+
+        WorkingHours requestedSlot =
+                new WorkingHours(command.start(), command.end());
+
+        Schedule schedule = scheduleRepository.findBySpecialistId(command.specialistId()).orElseThrow(() -> new EntityNotFoundException("Schedule not found"));
+
+        if(!schedule.isAvailable(requestedSlot)){
+            throw new IllegalStateException("Specialist is not available at this time");
+        }
+
+        List<Booking>existingBooking = bookingRepository.getBookingsBySpecialistId(command.specialistId());
+        boolean overlaps = existingBooking.stream().anyMatch(b -> b.getTimeSlot().overlaps(requestedSlot));
+
+        if(overlaps){
+            throw new IllegalStateException("Time slot already booked");
+        }
 
         Booking booking = new Booking(
                 0,
@@ -121,10 +138,6 @@ public class BookingService {
                 "Booking with id: " + id + " is not found"
         ));
     }
-
-
-
-
 
 
 }
