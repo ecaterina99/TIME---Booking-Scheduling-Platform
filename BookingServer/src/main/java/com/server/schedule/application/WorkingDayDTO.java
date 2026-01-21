@@ -8,4 +8,5 @@ public record WorkingDayDTO(
         DayOfWeek dayOfWeek,
         LocalTime start,
         LocalTime end
-) {}
+) {
+}

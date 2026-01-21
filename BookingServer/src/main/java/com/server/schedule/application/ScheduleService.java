@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ScheduleService {
 
-   private final ScheduleRepository scheduleRepository;
-   private final UserMapper userMapper;
+    private final ScheduleRepository scheduleRepository;
+    private final UserMapper userMapper;
 
     public ScheduleService(ScheduleRepository scheduleRepository, UserMapper userMapper) {
         this.scheduleRepository = scheduleRepository;
@@ -21,7 +21,7 @@ public class ScheduleService {
 
 
     @Transactional(readOnly = true)
-    public ScheduleDTO findBySpecialistId (int specialistId) {
+    public ScheduleDTO findBySpecialistId(int specialistId) {
         Schedule schedule = findScheduleBySpecialistId(specialistId);
         return userMapper.scheduleToDTO(schedule);
     }
@@ -29,7 +29,6 @@ public class ScheduleService {
     @Transactional
     public void createOrUpdateSchedule(CreateScheduleCommand command) {
         Schedule schedule = new Schedule(
-                0,
                 command.specialistId(),
                 command.workingDays().stream()
                         .map(d -> new WorkingDay(
@@ -41,7 +40,6 @@ public class ScheduleService {
         );
         scheduleRepository.save(schedule);
     }
-
 
     private Schedule findScheduleBySpecialistId(int specialistId) {
         return scheduleRepository.findBySpecialistId(specialistId)
