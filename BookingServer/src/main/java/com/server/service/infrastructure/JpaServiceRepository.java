@@ -2,7 +2,6 @@ package com.server.service.infrastructure;
 
 import com.server.service.domain.Service;
 import com.server.service.domain.ServiceRepository;
-import com.server.shared.infrastructure.UserMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,9 +11,9 @@ import java.util.Optional;
 public class JpaServiceRepository implements ServiceRepository {
 
     private final ServiceJpaRepository serviceJpaRepository;
-    private final UserMapper mapper;
+    private final ServiceMapper mapper;
 
-    public JpaServiceRepository(ServiceJpaRepository serviceJpaRepository, UserMapper mapper) {
+    public JpaServiceRepository(ServiceJpaRepository serviceJpaRepository, ServiceMapper mapper) {
         this.serviceJpaRepository = serviceJpaRepository;
         this.mapper = mapper;
     }

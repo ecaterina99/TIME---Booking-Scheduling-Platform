@@ -3,7 +3,6 @@ package com.server.organization.infrastructure.users;
 import com.server.organization.domain.users.User;
 import com.server.organization.domain.users.UserEmail;
 import com.server.organization.domain.users.UserRepository;
-import com.server.shared.infrastructure.UserMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

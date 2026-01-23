@@ -2,7 +2,6 @@ package com.server.schedule.infrastructure;
 
 import com.server.schedule.domain.Schedule;
 import com.server.schedule.domain.ScheduleRepository;
-import com.server.shared.infrastructure.UserMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,25 +11,25 @@ import java.util.Optional;
 public class JpaScheduleRepository implements ScheduleRepository {
 
     private final ScheduleJpaRepository scheduleJpaRepository;
-    private final UserMapper mapper;
+    private final ScheduleMapper mapper;
 
-    public JpaScheduleRepository(ScheduleJpaRepository scheduleJpaRepository, UserMapper mapper) {
+    public JpaScheduleRepository(ScheduleJpaRepository scheduleJpaRepository, ScheduleMapper mapper) {
         this.scheduleJpaRepository = scheduleJpaRepository;
         this.mapper = mapper;
     }
 
     @Override
     public Optional<Schedule> findBySpecialistId(int specialistId) {
-        List <ScheduleJpaEntity> list = scheduleJpaRepository.findBySpecialistId(specialistId);
+        List<ScheduleJpaEntity> list = scheduleJpaRepository.findBySpecialistId(specialistId);
         if (list.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(mapper.toScheduleDomain(list));
+        return Optional.of(mapper.toDomain(list));
     }
 
     @Override
     public void save(Schedule schedule) {
         scheduleJpaRepository.deleteBySpecialistId(schedule.getSpecialistId());
-        scheduleJpaRepository.saveAll(mapper.toScheduleEntities(schedule));
+        scheduleJpaRepository.saveAll(mapper.toEntities(schedule));
     }
 }

@@ -2,8 +2,7 @@ package com.server.organization.application;
 
 import com.server.organization.api.OrganizationDTO;
 import com.server.organization.domain.organizations.*;
-import com.server.organization.domain.organizations.OrganizationAlreadyExistsException;
-import com.server.shared.infrastructure.UserMapper;
+import com.server.organization.infrastructure.organizations.OrganizationMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,18 +13,19 @@ import java.util.List;
 public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
-    private final UserMapper organizationMapper;
+    private final OrganizationMapper organizationMapper;
 
-
-    public OrganizationService(OrganizationRepository organizationRepository, UserMapper organizationMapper) {
+    public OrganizationService(OrganizationRepository organizationRepository, OrganizationMapper organizationMapper) {
         this.organizationRepository = organizationRepository;
         this.organizationMapper = organizationMapper;
     }
 
     @Transactional(readOnly = true)
     public List<OrganizationDTO> getAllOrganizations() {
-        return organizationRepository.findAll().
-                stream().map(organizationMapper::toDTO).toList();
+        return organizationRepository.findAll()
+                .stream()
+                .map(organizationMapper::toDTO)
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -56,19 +56,17 @@ public class OrganizationService {
         organizationRepository.save(organization);
     }
 
-
     @Transactional
     public void deleteOrganizationById(int id) {
         Organization organization = findOrganizationById(id);
         organizationRepository.delete(organization);
     }
 
-
     @Transactional
     public int createOrganization(CreateOrganizationCommand createOrganizationCommand) {
 
-        organizationRepository.findByEmail(new OrganizationEmail(createOrganizationCommand.email())).
-                ifPresent(o -> {
+        organizationRepository.findByEmail(new OrganizationEmail(createOrganizationCommand.email()))
+                .ifPresent(o -> {
                     throw new OrganizationAlreadyExistsException(new OrganizationEmail(createOrganizationCommand.email()));
                 });
 
@@ -83,12 +81,10 @@ public class OrganizationService {
         return organizationRepository.save(organization).getId();
     }
 
-
     private Organization findOrganizationById(int id) {
         return organizationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Organization with id: " + id + " is not found"
                 ));
     }
-
 }

@@ -1,14 +1,11 @@
 package com.server.organization.application;
 
-import com.server.organization.api.OrganizationDTO;
 import com.server.organization.api.OrganizationMemberDTO;
-import com.server.organization.domain.enums.Role;
 import com.server.organization.domain.organizationMembers.OrganizationMember;
 import com.server.organization.domain.organizationMembers.OrganizationMemberRepository;
-import com.server.organization.domain.organizations.Organization;
 import com.server.organization.domain.organizations.OrganizationRepository;
 import com.server.organization.domain.users.UserRepository;
-import com.server.shared.infrastructure.UserMapper;
+import com.server.organization.infrastructure.organizationMembers.OrganizationMemberMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,18 +15,17 @@ import java.util.List;
 @Service
 public class OrgMembersService {
 
-    private final UserMapper organizationMapper;
+    private final OrganizationMemberMapper memberMapper;
     private final OrganizationMemberRepository repository;
     private final OrganizationRepository organizationRepository;
     private final UserRepository userRepository;
 
-    public OrgMembersService(UserMapper organizationMapper, OrganizationMemberRepository repository, OrganizationRepository organizationRepository, UserRepository userRepository) {
-        this.organizationMapper = organizationMapper;
+    public OrgMembersService(OrganizationMemberMapper memberMapper, OrganizationMemberRepository repository, OrganizationRepository organizationRepository, UserRepository userRepository) {
+        this.memberMapper = memberMapper;
         this.repository = repository;
         this.organizationRepository = organizationRepository;
         this.userRepository = userRepository;
     }
-
 
     @Transactional
     public int addMember(AddMemberCommand command) {
@@ -74,8 +70,6 @@ public class OrgMembersService {
                 .orElseThrow(() -> new EntityNotFoundException("Organization not found"));
 
         List<OrganizationMember> members = repository.findByOrganizationId(organizationId);
-        return members.stream().map(organizationMapper::toDTO).toList();
+        return members.stream().map(memberMapper::toDTO).toList();
     }
-
 }
-

@@ -5,36 +5,34 @@ import com.server.service.domain.ServiceDuration;
 import com.server.service.domain.ServiceName;
 import com.server.service.domain.ServicePrice;
 import com.server.service.domain.ServiceRepository;
-import com.server.shared.infrastructure.UserMapper;
+import com.server.service.infrastructure.ServiceMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ServiceOfferingService {
 
     private final ServiceRepository serviceRepository;
-    private final UserMapper userMapper;
+    private final ServiceMapper serviceMapper;
 
-
-    public ServiceOfferingService(ServiceRepository serviceRepository, UserMapper userMapper) {
+    public ServiceOfferingService(ServiceRepository serviceRepository, ServiceMapper serviceMapper) {
         this.serviceRepository = serviceRepository;
-        this.userMapper = userMapper;
+        this.serviceMapper = serviceMapper;
     }
 
     @Transactional(readOnly = true)
     public ServiceDTO getServiceById(int id) {
         com.server.service.domain.Service service = findServiceById(id);
-        return userMapper.toDTO(service);
+        return serviceMapper.toDTO(service);
     }
 
     @Transactional(readOnly = true)
     public List<ServiceDTO> getAllServices() {
         List<com.server.service.domain.Service> services = serviceRepository.findAll();
-        return services.stream().map(userMapper::toDTO).collect(Collectors.toList());
+        return services.stream().map(serviceMapper::toDTO).toList();
     }
 
     @Transactional
@@ -49,7 +47,6 @@ public class ServiceOfferingService {
         );
         return serviceRepository.save(service).getId();
     }
-
 
     public void updateService(UpdateServiceCommand command) {
         com.server.service.domain.Service service = findServiceById(command.id());

@@ -2,7 +2,6 @@ package com.server.booking.infrastructure;
 
 import com.server.booking.domain.Booking;
 import com.server.booking.domain.BookingRepository;
-import com.server.shared.infrastructure.UserMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,13 +11,11 @@ import java.util.Optional;
 public class BookingJpaRepository implements BookingRepository {
 
     private final JpaBookingRepository jpaBookingRepository;
-    private final UserMapper mapper;
-    private final UserMapper userMapper;
+    private final BookingMapper mapper;
 
-    public BookingJpaRepository(JpaBookingRepository jpaBookingRepository, UserMapper mapper, UserMapper userMapper) {
+    public BookingJpaRepository(JpaBookingRepository jpaBookingRepository, BookingMapper mapper) {
         this.jpaBookingRepository = jpaBookingRepository;
         this.mapper = mapper;
-        this.userMapper = userMapper;
     }
 
     @Override
@@ -43,7 +40,7 @@ public class BookingJpaRepository implements BookingRepository {
 
     @Override
     public Booking add(Booking booking) {
-        BookingJpaEntity bookingJpaEntity = userMapper.toEntity(booking);
+        BookingJpaEntity bookingJpaEntity = mapper.toEntity(booking);
         return mapper.toDomain(jpaBookingRepository.save(bookingJpaEntity));
     }
 

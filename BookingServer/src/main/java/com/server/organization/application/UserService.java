@@ -3,7 +3,7 @@ package com.server.organization.application;
 import com.server.organization.api.UserDTO;
 import com.server.organization.domain.enums.GlobalRole;
 import com.server.organization.domain.users.*;
-import com.server.shared.infrastructure.UserMapper;
+import com.server.organization.infrastructure.users.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

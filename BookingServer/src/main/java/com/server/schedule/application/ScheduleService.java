@@ -1,9 +1,9 @@
 package com.server.schedule.application;
 
-import com.server.schedule.domain.WorkingDay;
 import com.server.schedule.domain.Schedule;
 import com.server.schedule.domain.ScheduleRepository;
-import com.server.shared.infrastructure.UserMapper;
+import com.server.schedule.domain.WorkingDay;
+import com.server.schedule.infrastructure.ScheduleMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,18 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
-    private final UserMapper userMapper;
+    private final ScheduleMapper scheduleMapper;
 
-    public ScheduleService(ScheduleRepository scheduleRepository, UserMapper userMapper) {
+    public ScheduleService(ScheduleRepository scheduleRepository, ScheduleMapper scheduleMapper) {
         this.scheduleRepository = scheduleRepository;
-        this.userMapper = userMapper;
+        this.scheduleMapper = scheduleMapper;
     }
-
 
     @Transactional(readOnly = true)
     public ScheduleDTO findBySpecialistId(int specialistId) {
         Schedule schedule = findScheduleBySpecialistId(specialistId);
-        return userMapper.scheduleToDTO(schedule);
+        return scheduleMapper.toDTO(schedule);
     }
 
     @Transactional
@@ -49,5 +48,4 @@ public class ScheduleService {
                         )
                 );
     }
-
 }
