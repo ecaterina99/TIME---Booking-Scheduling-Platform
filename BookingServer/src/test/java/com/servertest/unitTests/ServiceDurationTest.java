@@ -1,4 +1,4 @@
-package com.server.businessRules;
+package com.servertest.unitTests;
 
 import com.server.service.domain.ServiceDuration;
 import org.junit.jupiter.api.Test;
@@ -25,4 +25,3 @@ public class ServiceDurationTest {
     }
 
 }
-

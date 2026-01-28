@@ -1,4 +1,4 @@
-package com.server.businessRules;
+package com.servertest.unitTests;
 
 import com.server.booking.domain.Booking;
 import com.server.booking.domain.BookingStatus;
@@ -77,7 +77,7 @@ public class BookingTest {
         Booking booking = new Booking(
                 1, 2, 3, 1,
                 timeSlot,
-                BookingStatus.CONFIRMED,
+                BookingStatus.PENDING,
                 LocalDateTime.now()
         );
         booking.confirmBySpecialist();

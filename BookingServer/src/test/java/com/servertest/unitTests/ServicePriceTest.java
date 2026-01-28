@@ -1,4 +1,4 @@
-package com.server.businessRules;
+package com.servertest.unitTests;
 
 import com.server.service.domain.ServicePrice;
 import org.junit.jupiter.api.Test;
