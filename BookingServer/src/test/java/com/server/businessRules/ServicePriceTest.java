@@ -8,9 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ServicePriceTest {
 
-    private ServicePrice servicePrice;
-
-
     @Test
     void positivePrice_createsServicePrice() {
         ServicePrice price = new ServicePrice(100);
